@@ -12,7 +12,11 @@
 			"architect": {
 				"build": {
 					"builder": "@angular-architects/native-federation:build",
-					"options": {},
+          "options": {
+            "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css"
+            ]
+          },
 					"configurations": {
 						"production": {
 							"target": "association:esbuild:production"
@@ -52,9 +56,14 @@
 							"projects/association/src/assets"
 						],
 						"styles": [
-							"projects/association/src/styles.css"
-						],
-						"scripts": []
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "projects/association/src/styles.css"
+            ],
+						"scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
 					}
 				},
 				"esbuild": {
