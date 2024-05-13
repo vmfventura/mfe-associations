@@ -27,7 +27,7 @@ export class AssociationAddEditComponent implements OnInit, OnDestroy {
   associations: Association [] = [];
   colaborators: Colaborator [] = [];
   projects: Project[] = [];
-  associationToEdit: Association[] = null;
+  associationToEdit: Association | null = null;
   needUpdate: boolean = false;
   enableOrDisable: boolean = false;
   @Output() closeShowComponent = new EventEmitter<boolean>();
@@ -72,7 +72,7 @@ export class AssociationAddEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.associationService.associationSelected = null;
+    this.associationService.associationSelected = null;
   }
 
   getColaboratorsName() {

@@ -1,8 +1,7 @@
+import {Association} from "./association";
+
 export interface AssociationInterface {
-  associationId: number;
+  associationI: Association
   projectName: string;
   colaboratorName: string;
-  startDate: Date | null;
-  endDate: Date | null;
-  fundamental: boolean;
 }

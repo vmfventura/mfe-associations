@@ -1,14 +1,14 @@
 <div class="row d-flex align-items-center justify-content-between table-striped">
-  <div class="col d-flex justify-content-center">{{ association.associationId }}</div>
+<!--  <div class="col d-flex justify-content-center">{{ association.associationI.id }}</div>-->
 
 <!--  <div class="col d-flex justify-content-center">{{ getProjectName(association.projectId) }}</div>-->
 <!--  <div class="col d-flex justify-content-center">{{ getColaboratorName(association.colaboratorId) }}</div>-->
   <div class="col d-flex justify-content-center">{{ association.projectName }}</div>
   <div class="col d-flex justify-content-center">{{ association.colaboratorName }}</div>
-  <div class="col d-flex justify-content-center">{{ association.startDate }}</div>
-  <div class="col d-flex justify-content-center">{{ association.endDate }}</div>
+  <div class="col d-flex justify-content-center">{{ association.associationI.startDate }}</div>
+  <div class="col d-flex justify-content-center">{{ association.associationI.endDate }}</div>
   <div class="col d-flex justify-content-center">
-    <input type="checkbox" [checked]="association.fundamental" disabled>
+    <input type="checkbox" [checked]="association.associationI.fundamental" disabled>
   </div>
   <div class="col d-flex justify-content-center">
     <button class="btn btn-primary btn-sm" (click)="sendAssociation()">Details</button>

@@ -10,6 +10,7 @@ import {ProjectService} from "../services/project.service";
 import {ColaboratorService} from "../services/colaborator.service";
 import {FilterComponent} from "../shared-components/filter.component";
 import {AssociationInterface} from "../models/association-interface";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-associations',
@@ -32,12 +33,14 @@ export class AssociationsComponent implements OnInit {
   set filter(value: string) {
     this._filter = value;
     // this.filterCriteria.update(prev => ({ ...prev , filter: value}));
-    // this.filterCriteria.set(value);
+    this.filterCriteria.set(value);
   }
 
   association: Association [] = [];
-  // association: Signal<Association> = signal([]);
+  associationInter: Signal<AssociationInterface[]> = signal([]);
+  associationI = signal<AssociationInterface[]>([]);
   private _filter: string = '';
+  everything: any;
   colaborators: Colaborator[] = [];
   projects: Project[] = [];
   filteredAssociations: AssociationInterface [] = [];
@@ -85,38 +88,59 @@ export class AssociationsComponent implements OnInit {
   //     })
   // }
 
+  // fetchAssociations() {
+  //   let allProjects: Project[];
+  //   let allCollaborators: Colaborator[];
+  //
+  //   this.projectService.getProjects().subscribe((projects: Project[]) => {
+  //     allProjects = projects;
+  //
+  //     this.colaboratorService.getColaborators().subscribe((collaborators: Colaborator[]) => {
+  //       allCollaborators = collaborators;
+  //
+  //       this.associationService.getAssociations().subscribe((list: Association[]) => {
+  //         this.filteredAssociations = list.map(association => {
+  //           let project = allProjects.find(p => p.id === association.projectId);
+  //           let collaborator = allCollaborators.find(c => c.id === association.colaboratorId);
+  //
+  //           let newAssociation: AssociationInterface = {
+  //             associationI: association,
+  //             projectName: project ? project.name : 'Unknown',
+  //             colaboratorName: collaborator ? collaborator.name : 'Unknown'
+  //           };
+  //           // this.associationI.set(newAssociation);
+  //           console.log(newAssociation);
+  //           return newAssociation;
+  //         });
+  //         console.log("updated");
+  //       });
+  //     });
+  //   });
+  // }
+
   fetchAssociations() {
-    let allProjects: Project[];
-    let allCollaborators: Colaborator[];
+    forkJoin({
+      projects: this.projectService.getProjects(),
+      collaborators: this.colaboratorService.getColaborators(),
+      associations: this.associationService.getAssociations()
+    }).subscribe({
+      next: value => {
+        this.everything = value.associations.map(association => {
+          let project = value.projects.find(p => p.id === association.projectId);
+          let collaborator = value.collaborators.find(c => c.id === association.colaboratorId);
 
-    this.projectService.getProjects().subscribe((projects: Project[]) => {
-      allProjects = projects;
-
-      this.colaboratorService.getColaborators().subscribe((collaborators: Colaborator[]) => {
-        allCollaborators = collaborators;
-
-        this.associationService.getAssociations().subscribe((list: Association[]) => {
-          this.filteredAssociations = list.map(association => {
-            let project = allProjects.find(p => p.id === association.projectId);
-            let collaborator = allCollaborators.find(c => c.id === association.colaboratorId);
-
-            // Create a new object that conforms to the AssociationInterface
-            let newAssociation: AssociationInterface = {
-              associationId: association.id,
-              projectName: project ? project.name : 'Unknown',
-              colaboratorName: collaborator ? collaborator.name : 'Unknown',
-              startDate: association.startDate,
-              endDate: association.endDate,
-              fundamental: association.fundamental
-            };
-
-            return newAssociation;
-          });
-          console.log("updated");
+          let newAssociation: AssociationInterface = {
+            associationI: association,
+            projectName: project ? project.name : 'Unknown',
+            colaboratorName: collaborator ? collaborator.name : 'Unknown'
+          };
+          return newAssociation;
         });
-      });
+        // console.log(this.everything);
+      }
     });
   }
+
 
   showAddComponent() {
     this.componentMustBeShown = !this.componentMustBeShown;

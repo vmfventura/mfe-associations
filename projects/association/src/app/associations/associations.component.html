@@ -24,7 +24,7 @@
     </div>
 <!--    <app-filter-component></app-filter-component>-->
     <div class="row d-flex align-items-center justify-content-between">
-      <div class="col d-flex justify-content-center">ID</div>
+<!--      <div class="col d-flex justify-content-center">ID</div>-->
       <div class="col d-flex justify-content-center">ProjectID</div>
       <div class="col d-flex justify-content-center">ColaboratorID</div>
       <div class="col d-flex justify-content-center">Start Date</div>
@@ -33,13 +33,15 @@
       <div class="col d-flex justify-content-center">Actions</div>
     </div>
   </div>
-  @for (association of filteredAssociations; track association) {
+  @for (association of everything; track association) {
 
     <app-association-list
       class="col-12"
       [association]="association"
       (editComponentOpen)="openEditComponent($event)">
     </app-association-list>
+  } @empty {
+    Don't exist any association in the moment.
   }
 </div>
 

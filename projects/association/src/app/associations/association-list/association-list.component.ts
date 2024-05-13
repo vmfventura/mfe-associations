@@ -1,10 +1,6 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
-import {Association} from "../../models/association";
 import {AssociationsService} from "../../services/associations.service";
-import {Colaborator} from "../../models/colaborator";
-import {Project} from "../../models/project";
 import {Router} from "@angular/router";
-import {AssociationInterface} from "../../models/association-interface";
 
 @Component({
   selector: 'app-association-list',
@@ -17,9 +13,7 @@ import {AssociationInterface} from "../../models/association-interface";
 
 
 export class AssociationListComponent {
-  @Input() association!: AssociationInterface;
-  @Input() colaborators!: Colaborator[];
-  @Input() projects!: Project[];
+  @Input() association!: any;
   @Output() editComponentOpen = new EventEmitter<boolean>();
 
   constructor(private associationService: AssociationsService,
@@ -27,7 +21,8 @@ export class AssociationListComponent {
   }
 
   sendAssociation() {
-    this.associationService.associationSaved(this.association.associationId);
+    // console.log(this.association);
+    this.associationService.associationSelected = this.association.associationI ;
     // this.router.navigate(['/association/details', this.association.id]);
     this.editComponentOpen.emit(true);
   }
