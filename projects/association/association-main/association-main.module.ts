@@ -8,7 +8,7 @@ import {AssociationListComponent} from "../src/app/associations/association-list
 
 export const routes : Routes  = [
   {path: '',
-  component: HomeComponent
+  component: AssociationsComponent
   },
   { path: 'associations', component: AssociationsComponent},
   { path: 'association-list', component: AssociationListComponent},
