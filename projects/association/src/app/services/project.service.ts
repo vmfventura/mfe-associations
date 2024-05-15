@@ -7,7 +7,7 @@ import {Project} from "../models/project";
   providedIn: 'root'
 })
 export class ProjectService {
-  private apiUrlQ = 'https://localhost:7283/api/Project';
+  private apiUrlQ = 'http://localhost:5186/api/Project';
   projects = signal<Project[]>([]);
   constructor(private http: HttpClient) { }
 

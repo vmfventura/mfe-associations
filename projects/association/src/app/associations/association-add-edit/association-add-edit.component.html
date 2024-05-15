@@ -5,9 +5,12 @@
       <label>Projecto</label>
 <!--      <input  type="text" id="projectId" class="form-control" required formControlName="projectId" maxlength="51" minlength="2">-->
       <select class="form-control" formControlName="projectId">
-        <option *ngFor="let project of projects" [value]="project.id">
+        @for (project of projects; track project) {
+        <option [value]="project.id">
           {{project.name}}
         </option>
+        }
+        @empty {No Colaborators available}
       </select>
     </div>
 
@@ -50,8 +53,8 @@
     </div>
 
     <div class="col-8 mt-3 button-position">
-      <button *ngIf="!enableOrDisable" class="btn btn-success" (click)="onSubmit()">Add Association</button>
-      <button class="btn btn-primary" (click)="goBack()">Go back</button>
+      <button *ngIf="!enableOrDisable" class="btn btn-success" id="addAssociationForm" (click)="onSubmit()">Add Association</button>
+      <button class="btn btn-primary" id="goBackButton" (click)="goBack()">Go back</button>
     </div>
 
   </div>

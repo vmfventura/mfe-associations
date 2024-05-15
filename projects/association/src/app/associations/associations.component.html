@@ -5,7 +5,7 @@
                                 (closeShowComponent)="closeAddComponent($event)"></app-association-add-edit>
       <div class="col">
         <input type="text" class="form-control" id="filterName"
-               placeholder="Filter by colaborator, name or project">
+               placeholder="Filter by colaborator, name or project" [(ngModel)]="filter">
       </div>
       <div class="col-2">
         <input type="date" class="form-control" id="filterStartDate" placeholder="Filter by StartDate">
@@ -13,18 +13,12 @@
       <div class="col-2">
         <input type="date" class="form-control" id="filterEndDate" placeholder="Filter by EndDate">
       </div>
-
-      <!--      <div class="col-3 d-flex justify-content-center"> <input type="date" class="form-control" id="filterStartDate" placeholder="Filter by StartDate" [(ngModel)]="filterStartDate" (input)="filterProjects()"> </div>-->
-      <button *ngIf="!componentMustBeShown" class="btn btn-success btn-width" (click)="showAddComponent()">
+      <button *ngIf="!componentMustBeShown" class="btn btn-success btn-width" id="addAssociations"(click)="showAddComponent()">
         Add Associations
       </button>
-      <!--          <button class="btn btn-success" >Add Projects</button>-->
-      <!--          <button *ngIf="buttonAddVisible" class="btn btn-success" (click)="cleanBoxes()">Clear</button>-->
-      <button class="btn btn-success btn-width" (click)="cleanBoxes()">Clear</button>
+      <button class="btn btn-success btn-width" id="clearButton" (click)="cleanBoxes()">Clear</button>
     </div>
-<!--    <app-filter-component></app-filter-component>-->
     <div class="row d-flex align-items-center justify-content-between">
-<!--      <div class="col d-flex justify-content-center">ID</div>-->
       <div class="col d-flex justify-content-center">ProjectID</div>
       <div class="col d-flex justify-content-center">ColaboratorID</div>
       <div class="col d-flex justify-content-center">Start Date</div>
@@ -33,8 +27,7 @@
       <div class="col d-flex justify-content-center">Actions</div>
     </div>
   </div>
-  @for (association of everything; track association) {
-
+  @for (association of filteredAssociationsF(); track association) {
     <app-association-list
       class="col-12"
       [association]="association"
@@ -44,4 +37,3 @@
     Don't exist any association in the moment.
   }
 </div>
-
