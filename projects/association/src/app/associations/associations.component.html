@@ -1,8 +1,9 @@
 <div class="row">
   <div class="col-12">
     <div class="row d-flex align-items-center">
-      <app-association-add-edit *ngIf="componentMustBeShown"
-                                (closeShowComponent)="closeAddComponent($event)"></app-association-add-edit>
+      @if (componentMustBeShown) {
+        <app-association-add-edit (closeShowComponent)="closeAddComponent($event)"></app-association-add-edit>
+      }
       <div class="col">
         <input type="text" class="form-control" id="filterName"
                placeholder="Filter by colaborator, name or project" [(ngModel)]="filter">
@@ -13,9 +14,11 @@
       <div class="col-2">
         <input type="date" class="form-control" id="filterEndDate" placeholder="Filter by EndDate">
       </div>
-      <button *ngIf="!componentMustBeShown" class="btn btn-success btn-width" id="addAssociations"(click)="showAddComponent()">
-        Add Associations
-      </button>
+      @if (!componentMustBeShown) {
+        <button class="btn btn-success btn-width" id="addAssociations" (click)="showAddComponent()">
+          Add Associations
+        </button>
+      }
       <button class="btn btn-success btn-width" id="clearButton" (click)="cleanBoxes()">Clear</button>
     </div>
     <div class="row d-flex align-items-center justify-content-between">
@@ -27,7 +30,7 @@
       <div class="col d-flex justify-content-center">Actions</div>
     </div>
   </div>
-  @for (association of filteredAssociationsF(); track association) {
+  @for (association of everything; track association) {
     <app-association-list
       class="col-12"
       [association]="association"

@@ -32,10 +32,10 @@ export class AssociationAddEditComponent implements OnInit, OnDestroy {
   enableOrDisable: boolean = false;
   @Output() closeShowComponent = new EventEmitter<boolean>();
 
-  constructor(private associationService: AssociationsService,
+  constructor(public associationService: AssociationsService,
               private colaboratorService: ColaboratorService,
               private projectService: ProjectService,
-              private formBuilder: FormBuilder,
+              public formBuilder: FormBuilder,
               private associationsComponent: AssociationsComponent) {
   }
 

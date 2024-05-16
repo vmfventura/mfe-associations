@@ -11,6 +11,8 @@ import {ColaboratorService} from "../services/colaborator.service";
 import {FilterComponent} from "../shared-components/filter.component";
 import {AssociationInterface} from "../models/association-interface";
 import {forkJoin} from "rxjs";
+import {FindTestsPlugin} from "@angular-devkit/build-angular/src/builders/karma/find-tests-plugin";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-associations',
@@ -20,7 +22,8 @@ import {forkJoin} from "rxjs";
     NgForOf,
     NgIf,
     AssociationAddEditComponent,
-    FilterComponent
+    FilterComponent,
+    FormsModule
   ],
   templateUrl: './associations.component.html',
   styleUrl: './associations.component.css'
@@ -32,18 +35,20 @@ export class AssociationsComponent implements OnInit {
 
   set filter(value: string) {
     this._filter = value;
-    // this.filterCriteria.update(prev => ({ ...prev , filter: value}));
+    // this.filterCriteria.update(prev => {
+    //   return {...prev, filter: value};
+    // });
     this.filterCriteria.set(value);
   }
 
   association: Association [] = [];
-  associationInter: Signal<AssociationInterface[]> = signal([]);
+  // associationInter: Signal<AssociationInterface[]> = signal([]);
   associationI = signal<AssociationInterface[]>([]);
   private _filter: string = '';
   everything: any;
   colaborators: Colaborator[] = [];
   projects: Project[] = [];
-  filteredAssociations: AssociationInterface [] = [];
+  // filteredAssociations: AssociationInterface [] = [];
   componentMustBeShown: boolean = false;
   @Output() needUpdateForm = new EventEmitter<boolean>();
 
@@ -67,76 +72,38 @@ export class AssociationsComponent implements OnInit {
   filterCriteria = signal<string>('');
   assoc = this.associationService.associations;
   proj = this.projectService.projects;
-  // // filteredAssociations = computed (() =>
-  // //   this.assoc().filter(a => a.colaboratorId.))
-  // proj = this.projectService.projects;
+  colab = this.colaboratorService.colaborators;
 
-  // filteredAssociations = computed(() =>
-  //   this.assoc().filter(a => {
-  //     const project = this.proj().find(p => p.id === a.projectId);
-  //     if (!project) return false;
-  //     return project.name.toLowerCase().includes(this.filterCriteria());
-  //   })
-  // );
-
-  // fetchAssociations() {
-  //   this.associationService.getAssociations()
-  //     .subscribe((list: Association[]) => {
-  //       // this.association = list;
-  //       this.filteredAssociations = list;
-  //       console.log("updated");
-  //     })
-  // }
-
-  // fetchAssociations() {
-  //   let allProjects: Project[];
-  //   let allCollaborators: Colaborator[];
-  //
-  //   this.projectService.getProjects().subscribe((projects: Project[]) => {
-  //     allProjects = projects;
-  //
-  //     this.colaboratorService.getColaborators().subscribe((collaborators: Colaborator[]) => {
-  //       allCollaborators = collaborators;
-  //
-  //       this.associationService.getAssociations().subscribe((list: Association[]) => {
-  //         this.filteredAssociations = list.map(association => {
-  //           let project = allProjects.find(p => p.id === association.projectId);
-  //           let collaborator = allCollaborators.find(c => c.id === association.colaboratorId);
-  //
-  //           let newAssociation: AssociationInterface = {
-  //             associationI: association,
-  //             projectName: project ? project.name : 'Unknown',
-  //             colaboratorName: collaborator ? collaborator.name : 'Unknown'
-  //           };
-  //           // this.associationI.set(newAssociation);
-  //           console.log(newAssociation);
-  //           return newAssociation;
-  //         });
-  //         console.log("updated");
-  //       });
-  //     });
-  //   });
-  // }
+  filteredAssociationsF = computed(() => {
+    const filter = this.filterCriteria().toLowerCase();
+    return this.assoc().filter(a => {
+      const project = this.proj().find(p => p.id === a.projectId);
+      const colab = this.colab().find(c => c.id === a.colaboratorId);
+      if (!project || !colab) {
+        return false;
+      }
+      return colab.name.toLowerCase().includes(filter) || project.name.toLowerCase().includes(filter);
+    });
+  });
 
   fetchAssociations() {
     forkJoin({
       projects: this.projectService.getProjects(),
-      collaborators: this.colaboratorService.getColaborators(),
+      colaborators: this.colaboratorService.getColaborators(),
       associations: this.associationService.getAssociations()
     }).subscribe({
       next: value => {
         this.everything = value.associations.map(association => {
           let project = value.projects.find(p => p.id === association.projectId);
-          let collaborator = value.collaborators.find(c => c.id === association.colaboratorId);
+          let colaborator = value.colaborators.find(c => c.id === association.colaboratorId);
 
           let newAssociation: AssociationInterface = {
             associationI: association,
             projectName: project ? project.name : 'Unknown',
-            colaboratorName: collaborator ? collaborator.name : 'Unknown'
+            colaboratorName: colaborator ? colaborator.name : 'Unknown'
           };
           return newAssociation;
         });
-        // console.log(this.everything);
       }
     });
   }
