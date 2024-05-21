@@ -3,47 +3,57 @@
   <div class="row d-flex flex-column align-items-center">
     <div class="form-group col-8">
       <label>Projecto</label>
-<!--      <input  type="text" id="projectId" class="form-control" required formControlName="projectId" maxlength="51" minlength="2">-->
       <select class="form-control" formControlName="projectId">
         @for (project of projects; track project) {
-        <option [value]="project.id">
-          {{project.name}}
-        </option>
+          <option [value]="project.id">
+            {{ project.name }}
+          </option>
+        } @empty {
+          No Projects available
         }
-        @empty {No Colaborators available}
       </select>
     </div>
 
     <div class="form-group col-8">
       <label>Colaborator</label>
-<!--      <input  type="text" id="colaborator" class="form-control" required formControlName="colaborator" maxlength="51" minlength="2">-->
+      <!--      <input  type="text" id="colaborator" class="form-control" required formControlName="colaborator" maxlength="51" minlength="2">-->
       <select class="form-control" formControlName="colaboratorId">
-        <option *ngFor="let colaborator of colaborators" [value]="colaborator.id">
-          {{colaborator.name}}
-        </option>
+        @for (colaborator of colaborators; track colaborator) {
+          <option [value]="colaborator.id">
+            {{ colaborator.name }}
+          </option>
+        } @empty {
+          No Colaborators available
+        }
       </select>
     </div>
 
     <div class="form-group col-8">
       <label for="startDate">Start Date</label>
       <input type="date" id="startDate" class="form-control" formControlName="startDate">
-      <div *ngIf="formAddEditAssociation.errors?.['requiredStartDate'] && !formAddEditAssociation.touched && tryToSubmit"
-           class="cross-validation-error-message alert alert-danger" role="alert">Date can't be null or empty
-      </div>
-      <div *ngIf="formAddEditAssociation.errors?.['invalidDate'] && (formAddEditAssociation.touched || formAddEditAssociation.dirty ) && tryToSubmit"
-           class="cross-validation-error-message alert alert-danger" role="alert">Invalid date
-      </div>
+      @if (formAddEditAssociation.errors?.['requiredStartDate'] && !formAddEditAssociation.touched && tryToSubmit) {
+        <div class="cross-validation-error-message alert alert-danger" role="alert">Date can't be null or empty
+        </div>
+      }
+      @if (formAddEditAssociation.errors?.['invalidDate'] && (formAddEditAssociation.touched || formAddEditAssociation.dirty) && tryToSubmit) {
+        <div class="cross-validation-error-message alert alert-danger" role="alert">Invalid date
+        </div>
+      }
     </div>
 
     <div class="form-group col-8">
       <label for="endDate">End Date</label>
       <input type="date" id="endDate" class="form-control" formControlName="endDate">
-      <div *ngIf="formAddEditAssociation.errors?.['requiredEndDate'] && !formAddEditAssociation.touched && tryToSubmit"
-           class="cross-validation-error-message alert alert-danger" role="alert">Date can't be null or empty
-      </div>
-      <div *ngIf="formAddEditAssociation.errors?.['invalidDate'] && (formAddEditAssociation.touched || formAddEditAssociation.dirty ) && tryToSubmit"
-           class="cross-validation-error-message alert alert-danger" role="alert">Invalid date
-      </div>
+      @if (formAddEditAssociation.errors?.['requiredEndDate'] && !formAddEditAssociation.touched && tryToSubmit) {
+        <div
+          class="cross-validation-error-message alert alert-danger" role="alert">Date can't be null or empty
+        </div>
+      }
+      @if (formAddEditAssociation.errors?.['invalidDate'] && (formAddEditAssociation.touched || formAddEditAssociation.dirty) && tryToSubmit) {
+        <div
+          class="cross-validation-error-message alert alert-danger" role="alert">Invalid date
+        </div>
+      }
     </div>
 
     <div class="form-group col-8">
@@ -53,7 +63,11 @@
     </div>
 
     <div class="col-8 mt-3 button-position">
-      <button *ngIf="!enableOrDisable" class="btn btn-success" id="addAssociationForm" (click)="onSubmit()">Add Association</button>
+      @if (!enableOrDisable) {
+        <button class="btn btn-success" id="addAssociationForm" (click)="onSubmit()">Add
+          Association
+        </button>
+      }
       <button class="btn btn-primary" id="goBackButton" (click)="goBack()">Go back</button>
     </div>
 

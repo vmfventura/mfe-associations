@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="row d-flex align-items-center">
+        @if (componentMustBeShown) {
+          <app-project-add-edit (closeShowComponent)="closeAddComponent($event)">
+          </app-project-add-edit>
+        }
+        <div class="col">
+          <input type="text" class="form-control" id="filterProjectName"
+                 placeholder="Filter by name" [(ngModel)]="filterProjects">
+        </div>
+        <div class="col-2">
+          <input type="date" class="form-control" id="filterProjectsStartDate" placeholder="Filter by StartDate"
+                 [(ngModel)]="filterProjectStartDate">
+        </div>
+        <div class="col-2">
+          <input type="date" class="form-control" id="filterProjectsEndDate" placeholder="Filter by EndDate"
+                 [(ngModel)]="filterProjectEndDate">
+        </div>
+        @if (!componentMustBeShown) {
+          <button class="btn btn-success btn-width" id="addProjects" (click)="showAddComponent()">
+            Add Project
+          </button>
+        }
+        <button class="btn btn-success btn-width" id="clearProjectsButton" (click)="cleanBoxes()">Clear</button>
+      </div>
+      <div class="row d-flex align-items-center justify-content-between">
+        <!--    <div class="col-2 d-flex justify-content-center">ID</div>-->
+        <div class="col d-flex justify-content-center">Name</div>
+        <div class="col d-flex justify-content-center">Start Date</div>
+        <div class="col d-flex justify-content-center">End Date</div>
+        <div class="col d-flex justify-content-center">Actions</div>
+      </div>
+      @for (project of filteredProjectsF(); track project) {
+        <app-project-view
+          class="col-12"
+          [project]="project"
+          (projectSelected)="projectSelected($event)"
+          (enableEditComponent)="editEnable($event)">
+        </app-project-view>
+      } @empty {
+        Don't exist any project in the moment.
+      }
+    </div>
+  </div>

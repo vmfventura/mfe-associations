@@ -16,8 +16,7 @@ export class AssociationListComponent {
   @Input() association!: any;
   @Output() editComponentOpen = new EventEmitter<boolean>();
 
-  constructor(private associationService: AssociationsService,
-              private router: Router) {
+  constructor(private associationService: AssociationsService) {
   }
 
   sendAssociation() {

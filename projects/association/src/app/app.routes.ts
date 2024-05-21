@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
 import {AssociationsComponent} from "./associations/associations.component";
 import {AssociationAddEditComponent} from "./associations/association-add-edit/association-add-edit.component";
+import {HomeComponent} from "./home/home.component";
 
 export const routes: Routes = [
   {
@@ -14,5 +15,6 @@ export const routes: Routes = [
     path: '',
     loadChildren: () => import('../../association-main/association-main.module').then((m) => m.AssociationMainModule)
   },
+  { path: 'association/home', loadComponent: () => HomeComponent },
 
 ];

@@ -1,0 +1,46 @@
+<form [formGroup]="formAddEditProject">
+
+  <div class="row d-flex flex-column align-items-center">
+    <div class="form-group col-8">
+      <label>Projecto</label>
+      <input type="text" id="projectName" class="form-control" formControlName="name">
+        @for (project of projects; track project) {
+          <option [value]="project.id">
+            {{project.name}}
+          </option>
+        }
+<!--      </input>-->
+    </div>
+
+    <div class="form-group col-8">
+      <label for="startDate">Start Date</label>
+      <input type="date" id="startDate" class="form-control" formControlName="startDate">
+<!--      <div *ngIf="formAddEditAssociation.errors?.['requiredStartDate'] && !formAddEditAssociation.touched && tryToSubmit"-->
+<!--           class="cross-validation-error-message alert alert-danger" role="alert">Date can't be null or empty-->
+<!--      </div>-->
+<!--      <div *ngIf="formAddEditAssociation.errors?.['invalidDate'] && (formAddEditAssociation.touched || formAddEditAssociation.dirty ) && tryToSubmit"-->
+<!--           class="cross-validation-error-message alert alert-danger" role="alert">Invalid date-->
+<!--      </div>-->
+    </div>
+
+    <div class="form-group col-8">
+      <label for="endDate">End Date</label>
+      <input type="date" id="endDate" class="form-control" formControlName="endDate">
+<!--      <div *ngIf="formAddEditAssociation.errors?.['requiredEndDate'] && !formAddEditAssociation.touched && tryToSubmit"-->
+<!--           class="cross-validation-error-message alert alert-danger" role="alert">Date can't be null or empty-->
+<!--      </div>-->
+<!--      <div *ngIf="formAddEditAssociation.errors?.['invalidDate'] && (formAddEditAssociation.touched || formAddEditAssociation.dirty ) && tryToSubmit"-->
+<!--           class="cross-validation-error-message alert alert-danger" role="alert">Invalid date-->
+<!--      </div>-->
+    </div>
+
+    <div class="col-8 mt-3 button-position">
+      @if(!enableOrDisable) {
+        <button class="btn btn-success" id="addAssociationForm" (click)="onSubmit()">Add Association</button>
+      }
+      <button class="btn btn-primary" id="goBackButton" (click)="goBack()">Go back</button>
+    </div>
+
+  </div>
+
+</form>

@@ -2,6 +2,6 @@ import {Association} from "./association";
 
 export interface AssociationInterface {
   associationI: Association
-  projectName: string;
+  projectName: string | null;
   colaboratorName: string;
 }

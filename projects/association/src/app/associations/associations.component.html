@@ -1,42 +1,46 @@
-<div class="row">
-  <div class="col-12">
-    <div class="row d-flex align-items-center">
-      @if (componentMustBeShown) {
-        <app-association-add-edit (closeShowComponent)="closeAddComponent($event)"></app-association-add-edit>
-      }
-      <div class="col">
-        <input type="text" class="form-control" id="filterName"
-               placeholder="Filter by colaborator, name or project" [(ngModel)]="filter">
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="row d-flex align-items-center">
+        @if (componentMustBeShown) {
+          <app-association-add-edit (closeShowComponent)="closeAddComponent($event)"></app-association-add-edit>
+        }
+        <div class="col">
+          <input type="text" class="form-control" id="filterName"
+                 placeholder="Filter by colaborator, name or project" [(ngModel)]="filter">
+        </div>
+        <div class="col-2">
+          <input type="date" class="form-control" id="filterStartDate" placeholder="Filter by StartDate"
+                 [(ngModel)]="filterStartDate">
+        </div>
+        <div class="col-2">
+          <input type="date" class="form-control" id="filterEndDate" placeholder="Filter by EndDate"
+                 [(ngModel)]="filterEndDate">
+        </div>
+        @if (!componentMustBeShown) {
+          <button class="btn btn-success btn-width" id="addAssociations" (click)="showAddComponent()">
+            Add Associations
+          </button>
+        }
+        <button class="btn btn-success btn-width" id="clearButton" (click)="cleanBoxes()">Clear</button>
       </div>
-      <div class="col-2">
-        <input type="date" class="form-control" id="filterStartDate" placeholder="Filter by StartDate">
+      <div class="row d-flex align-items-center justify-content-between">
+        <div class="col d-flex justify-content-center">ProjectID</div>
+        <div class="col d-flex justify-content-center">ColaboratorID</div>
+        <div class="col d-flex justify-content-center">Start Date</div>
+        <div class="col d-flex justify-content-center">End Date</div>
+        <div class="col d-flex justify-content-center">Fundamental</div>
+        <div class="col d-flex justify-content-center">Actions</div>
       </div>
-      <div class="col-2">
-        <input type="date" class="form-control" id="filterEndDate" placeholder="Filter by EndDate">
-      </div>
-      @if (!componentMustBeShown) {
-        <button class="btn btn-success btn-width" id="addAssociations" (click)="showAddComponent()">
-          Add Associations
-        </button>
-      }
-      <button class="btn btn-success btn-width" id="clearButton" (click)="cleanBoxes()">Clear</button>
     </div>
-    <div class="row d-flex align-items-center justify-content-between">
-      <div class="col d-flex justify-content-center">ProjectID</div>
-      <div class="col d-flex justify-content-center">ColaboratorID</div>
-      <div class="col d-flex justify-content-center">Start Date</div>
-      <div class="col d-flex justify-content-center">End Date</div>
-      <div class="col d-flex justify-content-center">Fundamental</div>
-      <div class="col d-flex justify-content-center">Actions</div>
-    </div>
+    @for (association of filteredAssociationsF(); track association.associationI) {
+      <app-association-list
+        class="col-12"
+        [association]="association"
+        (editComponentOpen)="openEditComponent($event)">
+      </app-association-list>
+    } @empty {
+      Don't exist any association in the moment.
+    }
   </div>
-  @for (association of everything; track association) {
-    <app-association-list
-      class="col-12"
-      [association]="association"
-      (editComponentOpen)="openEditComponent($event)">
-    </app-association-list>
-  } @empty {
-    Don't exist any association in the moment.
-  }
 </div>

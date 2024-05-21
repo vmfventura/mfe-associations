@@ -4,7 +4,6 @@ import {Association} from "../../models/association";
 import {Colaborator} from "../../models/colaborator";
 import {ColaboratorService} from "../../services/colaborator.service";
 import {AssociationsService} from "../../services/associations.service";
-import {NgForOf, NgIf} from "@angular/common";
 import {ProjectService} from "../../services/project.service";
 import {Project} from "../../models/project";
 import {AssociationsComponent} from "../associations.component";
@@ -15,8 +14,6 @@ import {AssociationsComponent} from "../associations.component";
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    NgIf,
-    NgForOf
   ],
   templateUrl: './association-add-edit.component.html',
   styleUrl: './association-add-edit.component.css'
@@ -45,7 +42,6 @@ export class AssociationAddEditComponent implements OnInit, OnDestroy {
     this.associationsComponent.needUpdateForm.subscribe((needUpdate) => {
       if (needUpdate) {
         this.needUpdate = needUpdate;
-        // Perform the necessary action here, such as resetting the form
         console.log(this.needUpdate)
         this.writeAssociationToForm();
       }
@@ -104,6 +100,7 @@ export class AssociationAddEditComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.associationService.associationUpdated.emit();
+          this.goBack();
         }
       });
       console.log(association);

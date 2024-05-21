@@ -1,8 +1,11 @@
-<div class="row">
+<div class="container">
 
-  <div class="col d-flex justify-content-center">
-    <button type="button" class="btn btn-outline-primary" routerLink="/association/associations">Associations</button>
-  </div>
+  <app-projects
+                (projectAssociationChange)="onProjectAssociationChange($event)">
 
+  </app-projects>
+  <app-associations
+    [projectAssociation]="projectAssociationChange">
+  </app-associations>
 
 </div>
